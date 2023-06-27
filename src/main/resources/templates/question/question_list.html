@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">-->
+<!--<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+
+
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+            <link rel="stylesheet" type="text/css"  th:href="@{/style.css}">
+            <div layout:fragment="content" class="container my-3">
+                <table class="table">
+                    <thead class="title title_T">
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="question, loop : ${questionList}">
+                        <td th:text="${lop.count}"></td>
+            <td>
+                <a th:href="@{|/question/detail/${question.id}|}"
+                   class = "chat_list"
+                   th:text="${question.subject}"
+                ></a>
+            </td>
+            <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}" ></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/question/create}" class="btn btn-primary title title_T">질문 등록하기</a>
+</div>
+</html>
+<!--2342112312312312312312312334-->

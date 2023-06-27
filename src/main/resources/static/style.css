@@ -1,0 +1,155 @@
+/* 새로 추가 부분 */
+.chat_list{
+    color: #3D3D3D;
+    list-style: none;
+    text-decoration: none;
+    font-weight:bold;
+}
+
+.title_T {
+  padding: 20px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+/* 새로 추가 부분 */
+
+
+
+* {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  text-decoration: none;
+}
+
+//body {
+//  text-align: center;
+//}
+
+hr {
+  height: 1px;
+  background-color: #ffffff;
+}
+
+.title {
+  background-color: #108cc6;
+  text-align: center;
+
+}
+.title .title_T {
+  padding: 10px;
+  color: white;
+  font-size: 60px;
+  list-style: none;
+  text-decoration: none;
+}
+.title .menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 100%;
+  height: 50px;
+}
+.title .menu > li {
+  padding: 20px;
+  font-size: 30px;
+}
+.title a {
+  color: white;
+  margin: 60px;
+}
+.title .submenu > li {
+  background-color: #a2c2ff;
+}
+.title .submenu {
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  z-index: 99;
+}
+.title .menu > li:hover .submenu {
+  height: auto;
+}
+.title .submenu > li:hover {
+  background-color: #15678d;
+}
+
+.mainimg {
+  position: relative;
+  width: 100%;
+  height: 700px;
+}
+.mainimg img {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mainimg div {
+  background-color: #a2c2ff;
+  position: absolute;
+  width: 40%;
+  height: auto;
+  padding: 20px;
+  font-size: 80px;
+  font-weight: bold;
+  color: white;
+  left: 12%;
+  bottom: 10%;
+}
+
+.con_Title {
+  margin: 5%;
+  text-align: left;
+}
+.con_Title h1 {
+  font-size: 40px;
+  color: #15678d;
+  padding: 10px;
+}
+.con_Title section {
+  width: 100%;
+  display: flex;
+}
+.con_Title article {
+  display: inline-block;
+  padding: 10px;
+}
+.con_Title img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.con2 article {
+  padding: 40px;
+  position: relative;
+}
+.con2 article:first-child {
+  padding-left: 10px;
+}
+.con2 a {
+  color: darkblue;
+  font-size: 25px;
+  background-color: white;
+  padding: 10px;
+  position: absolute;
+  bottom: 70px;
+  right: 70px;
+}
+
+.downtitle {
+  background-color: #cccccc;
+}
+.downtitle .menu {
+  height: auto;
+}
+.downtitle .menu > li > a {
+  margin: 20px;
+  color: #15678e;
+}
+

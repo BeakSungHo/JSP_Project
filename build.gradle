@@ -36,9 +36,15 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-// scss 추가
+//	스프링 시큐리티 설치
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+// scss 추가 버그문제로 사용불가
 //	implementation 'org.springframework.boot:spring-boot-starter-web'
 //	implementation 'org.webjars.npm:node-sass:4.14.1'
+
+//	마크다운설치
+	implementation 'org.commonmark:commonmark:0.21.0'
 }
 
 tasks.named('test') {

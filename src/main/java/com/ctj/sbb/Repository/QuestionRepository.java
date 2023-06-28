@@ -1,8 +1,11 @@
 package com.ctj.sbb.Repository;
 
 import java.util.List;
+
+import com.ctj.sbb.entity.Answer;
 import com.ctj.sbb.entity.Question;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +16,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     Question findBySubjectAndContent(String subject, String content);
     List<Question> findBySubjectLike(String subject);
 
-//쿼리문으로 사용할때 아래 의 코드 사용  (하단 자바문과 역할은 같음 )
+    //쿼리문으로 사용할때 아래 의 코드 사용  (하단 자바문과 역할은 같음 )
 //import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.repository.query.Param;
 //    @Query("select "
@@ -31,5 +34,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 //    Page<Question> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
 
     Page<Question> findAll(Pageable pageable);
+
+    
+    //spec은 검색을 위한장치
     Page<Question> findAll(Specification<Question> spec, Pageable pageable);
 }

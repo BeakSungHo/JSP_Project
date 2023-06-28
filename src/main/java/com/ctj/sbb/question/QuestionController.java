@@ -1,6 +1,7 @@
 package com.ctj.sbb.question;
 
 import com.ctj.sbb.Answer.AnswerForm;
+import com.ctj.sbb.Answer.AnswerService;
 import com.ctj.sbb.User.UserService;
 import com.ctj.sbb.entity.Answer;
 import com.ctj.sbb.entity.Question;
@@ -27,6 +28,7 @@ public class QuestionController {
     // 보안성의 문제로 서비스 클래스를 추가해서 설정
     //private final QuestionRepository questionRepository;
     private final QuestionService questionService;
+    private final AnswerService answerService;
     private final UserService userService;
 
     @GetMapping("/list")
@@ -40,12 +42,32 @@ public class QuestionController {
         model.addAttribute("kw", kw);
         return "question/question_list";
     }
+    //내가 새로 추가한내용
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+    public String detail(
+            Model model,
+            @PathVariable("id") Integer id, AnswerForm answerForm,
+                //추가됨
+            @RequestParam(value="page", defaultValue="0") int page) {
+
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
+
+        //추가함
+        Page<Answer> paging = this.answerService.getListByIds(page ,question.getAnswerList());
+        model.addAttribute("paging",paging);
+
         return "question/question_detail";
     }
+//백업용
+//    @GetMapping(value = "/detail/{id}")
+//    public String detail(
+//            Model model,
+//            @PathVariable("id") Integer id, AnswerForm answerForm) {
+//        Question question = this.questionService.getQuestion(id);
+//        model.addAttribute("question", question);
+//        return "question/question_detail";
+//    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")

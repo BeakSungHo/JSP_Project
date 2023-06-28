@@ -1,4 +1,5 @@
 package com.ctj.sbb.question;
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-
-    private Specification<Question> search(String kw) {
+    //하나라도 포함되어잇으면 출력 가져오는 서치문
+    private Specification<Question> question_Search(String kw) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
@@ -43,6 +44,20 @@ public class QuestionService {
             }
         };
     }
+//위와같은 answer_Search만들에정
+private Specification<Answer> answer_Search(String kw) {
+    return new Specification<>() {
+        private static final long serialVersionUID = 1L;
+        @Override
+        public Predicate toPredicate(Root<Answer> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            query.distinct(true);  // 중복을 제거
+            Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
+            Join<Question, Question> a = q.join("answerList", JoinType.LEFT);
+            Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
+            return cb.or(cb.like(q.get("subject"), "%" + kw + "%"));
+        }
+    };
+}
 
 
 
@@ -66,17 +81,22 @@ public class QuestionService {
         q.setAuthor(user);
         this.questionRepository.save(q);
     }
+    public Page<Question> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return this.questionRepository.findAll(pageable);
+    }
 
     public Page<Question> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Specification<Question> spec = search(kw);
+        Specification<Question> spec = question_Search(kw);
         return this.questionRepository.findAll(spec,pageable);
 //        아래는 쿼리문을 사용할경우의 반환문 위는 일반 자바 코드
 //        return this.questionRepository.findAllByKeyword(kw, pageable);
     }
 
+//    public p
     public void modify(Question question, String subject, String content) {
         question.setSubject(subject);
         question.setContent(content);

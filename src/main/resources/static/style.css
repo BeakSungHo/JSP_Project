@@ -13,6 +13,28 @@
   font-weight: bold;
 }
 /* 새로 추가 부분 */
+.bgc_red{
+    background-color : red;
+}
+.bgc_blue{
+    background-color : blue;
+}
+.bgc_base{
+    background-color : #108CC6;
+}
+.fc_red{
+    color : red;
+}
+.fc_blue{
+    color : blue
+}
+.fc_white{
+    color : white
+}
+.fw_bold{
+    font-weight : bold;
+}
+
 
 
 

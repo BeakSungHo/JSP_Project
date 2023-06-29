@@ -79,7 +79,7 @@ public class AnswerService {
     public Page<Answer> getListByIds(int page, List<Answer> answers){
         List<Sort.Order> sorts = new ArrayList<>();
         //셀렉트문에  사용할in
-       List<Integer> ids=new ArrayList<>();
+        List<Integer> ids=new ArrayList<>();
 
         for(Answer a :answers){
         ids.add((Integer)a.getId());

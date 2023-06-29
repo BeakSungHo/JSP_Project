@@ -2,8 +2,11 @@ package com.ctj.sbb.question;
 
 import com.ctj.sbb.Answer.AnswerForm;
 import com.ctj.sbb.Answer.AnswerService;
+//import com.ctj.sbb.Comment.CommentService;
+//import com.ctj.sbb.Repository.CommentRepository;
 import com.ctj.sbb.User.UserService;
 import com.ctj.sbb.entity.Answer;
+//import com.ctj.sbb.entity.Comment;
 import com.ctj.sbb.entity.Question;
 import com.ctj.sbb.entity.SiteUser;
 import jakarta.validation.Valid;
@@ -29,6 +32,7 @@ public class QuestionController {
     //private final QuestionRepository questionRepository;
     private final QuestionService questionService;
     private final AnswerService answerService;
+//    private final CommentService commentService;
     private final UserService userService;
 
     @GetMapping("/list")
@@ -54,8 +58,13 @@ public class QuestionController {
         model.addAttribute("question", question);
 
         //추가함
-        Page<Answer> paging = this.answerService.getListByIds(page ,question.getAnswerList());
-        model.addAttribute("paging",paging);
+        Page<Answer> answer_paging = this.answerService.getListByIds(page ,question.getAnswerList());
+        //comment를 추출하기위해서 리스트화
+//        List<Page<Comment>> list_comments_paging = this.commentService.getListByAnswer(page,answer_paging.getContent());
+
+        model.addAttribute("answer_paging",answer_paging);
+
+//        model.addAttribute("comment_paging",comment_paging);
 
         return "question/question_detail";
     }

@@ -28,6 +28,8 @@ public class AnswerController {
     private final UserService userService;
 
 
+
+//    AnswerDB 생성에 관한 내용    시작
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Integer id,
@@ -45,6 +47,10 @@ public class AnswerController {
         return String.format("redirect:/question/detail/%s#answer_%s",
                 answer.getQuestion().getId(), answer.getId());
     }
+//    AnswerDB 생성에 관한 내용    끝
+
+
+//    AnswerDB 수정에 관한 내용    시작
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String answerModify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
@@ -70,6 +76,9 @@ public class AnswerController {
         return String.format("redirect:/question/detail/%s#answer_%s",
                 answer.getQuestion().getId(), answer.getId());
     }
+    //    AnswerDB 수정에 관한 내용 끝
+
+    //    AnswerDB 삭제에 관한 내용    시작
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String answerDelete(Principal principal, @PathVariable("id") Integer id) {
@@ -80,6 +89,7 @@ public class AnswerController {
         this.answerService.delete(answer);
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
+    //    AnswerDB 삭제에 관한 내용    끝
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")

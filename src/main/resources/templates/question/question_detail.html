@@ -32,7 +32,6 @@
                            sec:authorize="isAuthenticated()"
                            th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
                            th:text="수정"></a>
-
                         <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
                            class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                            th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
@@ -44,13 +43,15 @@
             <h5 class="border-bottom my-3 py-2"
                 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
             <!-- 답변 반복 시작 -->
-            <div class="card my-3" th:each="answer, loop: ${paging}">
-<!--                앵커 추가 -->
+            <div class="card my-3" th:each="answer, loop: ${answer_paging}">
+<!--                <div class="card my-3" th:each="answer : ${question.answerList}">-->
+<!--                앵커 추가  <a th:id="|answer_${answer.id}|"></a>-->
                 <a th:id="|answer_${answer.id}|"></a>
                 <div class="card-body">
 <!--                    마크다운으로 교체  -->
                     <div class="card-text" th:utext="${@commonUtil.markdown(answer.content)}"></div>
 <!--                    <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>-->
+<!--                    수정사항가 추가된 사항 부분 -->
                     <div class="d-flex justify-content-end">
                         <div th:if="${answer.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                             <div class="mb-2">수정 일시 : </div>
@@ -63,7 +64,7 @@
                             <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                         </div>
                     </div>
-<!--                    댓글 div-->
+<!--                    추천 삽입 삭제 버튼  div 시작 -->
                     <div class="my-3">
                         <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
                            th:data-uri="@{|/answer/vote/${answer.id}|}">
@@ -79,46 +80,106 @@
                            th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                            th:text="삭제"></a>
                     </div>
+<!--                    추천 삽입 삭제 버튼  div 끝 -->
 
+
+<!--                댓글 등록 부분 시작 (미완 )-->
+<!--                댓글 갯수확인-->
+                    <h5 class="border-bottom my-3 py-2"
+                        th:text="|${#lists.size(answer.commentList)}개의 댓글이 있습니다.|"></h5>
+                    <div></div>
+<!--                <div class="card my-3" th:each="answer, loop: ${comment_paging}"></div>   이리 교체되어야함-->
+                    <div class="card my-3 m-2"th:each="comment, loop: ${answer.commentList}">
+                        <div class="d-flex justify-content-first">
+<!--                        댓글내용 출력-->
+                            <div class="card-text text-first
+                                    mt-4 ms-4 me-2 mb-4, fp-2 w-100 p-2 "
+                                 th:utext="${comment.comment}" >
+                            </div>
+<!--                        우측 댓글창 -->
+                            <div class ="p-2 flex-shrink-1">
+<!--                        현제일시와 수정일시 추가 사항 -->
+                                <div class ="flex-column">
+                                    <div th:if="${comment.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                                        <div class="mb-2">수정 일시 : </div>
+                                        <div th:text="${#temporals.format(comment.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+                                    </div>
+                                    <div class="badge bg-light text-dark p-2 text-start">
+                                        <div class="mb-2">
+                                            <span class = "fw_bold" th:if="${comment.author != null}" th:text="'아이디 : '+${comment.author.username}"></span>
+                                        </div>
+                                        <div class="ms-5" th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                                    </div>
+                                </div>
+<!--                               수정삭제추천 부턴라인-->
+                                <div class="text-center d-flex flex-column ">
+                                    <div>
+                                        <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary m-4"
+
+                                           th:data-uri="@{|/comment/vote/${comment.id}|}">추천
+                                            <span class="badge rounded-pill bg-success"
+                                                  th:text="${#lists.size(comment.voter)}"></span>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                                           sec:authorize="isAuthenticated()"
+                                           th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                                           th:text="수정"></a>
+                                        <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                                           class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                                           th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                                           th:text="삭제"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+<!--                        <div class="card-text" th:utext="${@commonUtil.markdown(answer.content)}"></div> 와같이 추가되어야함-->
+                        <!--                                버튼 출력내용 -->
+
+                    </div>
+<!--                    댓글 등록부분 끝-->
                 </div>
             </div>
             <!-- 답변 반복 끝  -->
-            <div th:if="${!paging.isEmpty()}">
+            <div th:if="${!answer_paging.isEmpty()}">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item pe-4" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <li class="page-item pe-4" th:classappend="${!answer_paging.hasPrevious} ? 'disabled'">
                         <a class="page-link"
                            href="javascript:void(0)" th:data-page="${0}">
                             <!--                    th:href="@{|?page=${paging.number+1}|}">과거 (검색없을때)자료형-->
                             <span>처음</span>
                         </a>
                     </li>
-                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <li class="page-item" th:classappend="${!answer_paging.hasPrevious} ? 'disabled'">
                         <a class="page-link"
-                           href="javascript:void(0)" th:data-page="${paging.number-1}">
+                           href="javascript:void(0)" th:data-page="${answer_paging.number-1}">
                             <!--                    th:href="@{|?page=${paging.number-1}|}"> 과거 (검색없을때)자료형-->
                             <span>이전</span>
                         </a>
                     </li>
                     <!-- th:if="${page >= paging.number-5 and page <= paging.number+5}"
                         페이지 획수재한-->
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                        th:classappend="${page == paging.number} ? 'active'"
+                    <li th:each="page: ${#numbers.sequence(0, answer_paging.totalPages-1)}"
+                        th:if="${page >= answer_paging.number-5 and page <= answer_paging.number+5}"
+                        th:classappend="${page == answer_paging.number} ? 'active'"
                         class="page-item">
                         <a th:text="${page}" class="page-link"
                            href="javascript:void(0)"
                            th:data-page="${page}"></a>
                         <!--                   th:href="@{|?page=${page}|}"></a>과거 (검색없을때)자료형-->
                     </li>
-                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <li class="page-item" th:classappend="${!answer_paging.hasNext} ? 'disabled'">
                         <a class="page-link"  href="javascript:void(0)"
-                           th:data-page="${paging.number+1}">
+                           th:data-page="${answer_paging.number+1}">
                             <!--                    th:href="@{|?page=${paging.number+1}|}">과거 (검색없을때)자료형-->
                             <span>다음</span>
                         </a>
                     </li>
-                    <li class="page-item ps-4" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a class="page-link"  href="javascript:void(0)" th:data-page="${paging.totalPages-1}">
+                    <li class="page-item ps-4" th:classappend="${!answer_paging.hasNext} ? 'disabled'">
+                        <a class="page-link"  href="javascript:void(0)" th:data-page="${answer_paging.totalPages-1}">
                             <!--                    th:href="@{|?page=${paging.number+1}|}">과거 (검색없을때)자료형-->
                             <span>끝</span>
                         </a>
@@ -127,17 +188,24 @@
             </div>
 
             <form th:action="@{|/question/detail/${question.id}|}" method="get" id="searchForm">
-                <input type="hidden" id="page" name="page" th:value="${paging.number}">
+                <input type="hidden" id="page" name="page" th:value="${answer_paging.number}">
             </form>
 
-            <!-- 답변 작성 -->
+            <!-- 답변 작성 시작 -->
             <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
                 <div th:replace="~{form_errors :: formErrorsFragment}"></div>
                 <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
                 <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
                 <input type="submit" value="답변등록" class="btn btn-primary my-2 title title_T">
             </form>
+            <!-- 답변 작성 끝 -->
+
+
         </div>
+
+
+
+
         <script layout:fragment="script" type='text/javascript'>
         const page_elements = document.getElementsByClassName("page-link");
         Array.from(page_elements).forEach(function(element) {

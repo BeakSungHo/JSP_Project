@@ -1,39 +1,38 @@
 package com.ctj.sbb.entity;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GeneratedColumn;
 import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Answer {
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "TEXT")
-    private String content;//
+    @Column(length = 150)
+    private String comment;//
 
     @CreatedDate
     private LocalDateTime createDate;
 
     @ManyToOne
-    private Question question;//
+    private Answer answer;//
 
     @ManyToOne
-    private SiteUser author; //
-
+    private SiteUser author;//
     private LocalDateTime modifyDate;
 
     @ManyToMany
     Set<SiteUser> voter;
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private List<Comment> commentList;
+
 }

@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -78,11 +77,11 @@ public class AnswerService {
     //페이지부분 findByIds
     public Page<Answer> getListByIds(int page, List<Answer> answers){
         List<Sort.Order> sorts = new ArrayList<>();
-        //셀렉트문에  사용할in
+        //셀렉트문에  사용할 in
         List<Integer> ids=new ArrayList<>();
 
         for(Answer a :answers){
-        ids.add((Integer)a.getId());
+        ids.add(a.getId());
         }
         //정렬
         sorts.add(Sort.Order.desc("createDate"));

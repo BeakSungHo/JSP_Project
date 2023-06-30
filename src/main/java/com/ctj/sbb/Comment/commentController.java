@@ -5,7 +5,6 @@ import com.ctj.sbb.Answer.AnswerService;
 import com.ctj.sbb.User.UserService;
 import com.ctj.sbb.entity.Answer;
 import com.ctj.sbb.entity.Comment;
-import com.ctj.sbb.entity.Question;
 import com.ctj.sbb.entity.SiteUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +33,7 @@ public class commentController {
     public String createComment (Model model, @PathVariable("id") Integer id,
                                  @Valid CommentForm commentForm, BindingResult bindingResult,
                                  Principal principal){
+        System.out.println("생성자 호출");
         Answer answer = this.answerService.getAnswer(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if(bindingResult.hasErrors()){
@@ -42,8 +42,9 @@ public class commentController {
         }
         Comment comment = this.commentService.create(answer,
                 commentForm.getComment(),siteUser);
-        return String.format("redirect:/question/detail/%s#",
-                answer.getQuestion().getId(),answer.getId());
+//아래 리턴문은 앵커용
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(),comment.getAnswer().getId());
 
     }
 //추천사항

@@ -7,7 +7,6 @@ import com.ctj.sbb.entity.SiteUser;
 import com.ctj.sbb.question.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,6 @@ public class AnswerController {
     public String createAnswer(Model model, @PathVariable("id") Integer id,
                                @Valid AnswerForm answerForm, BindingResult bindingResult,
                                Principal principal) {
-
         Question question = this.questionService.getQuestion(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if (bindingResult.hasErrors()) {
@@ -64,7 +62,8 @@ public class AnswerController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String answerModify(@Valid AnswerForm answerForm, BindingResult bindingResult,
-                               @PathVariable("id") Integer id, Principal principal) {
+                               @PathVariable("id") Integer id, Principal principal)
+    {
         if (bindingResult.hasErrors()) {
             return "answer/answer_form";
         }

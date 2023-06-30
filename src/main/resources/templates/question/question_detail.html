@@ -83,7 +83,7 @@
 <!--                    추천 삽입 삭제 버튼  div 끝 -->
 
 
-<!--                댓글 등록 부분 시작 (미완 )-->
+<!--                댓글  시작 (미완 )-->
 <!--                댓글 갯수확인-->
                     <h5 class="border-bottom my-3 py-2"
                         th:text="|${#lists.size(answer.commentList)}개의 댓글이 있습니다.|"></h5>
@@ -140,10 +140,21 @@
                         <!--                                버튼 출력내용 -->
 
                     </div>
-<!--                    댓글 등록부분 끝-->
+<!--                 댓글  끝-->
+
+                    <!-- 댓글 작성 시작 -->
+<!--                    <form th:action="@{|/comment/create/${answer.id}|}" th:object="${commentForm}" method="post" class="my-3">-->
+<!--                        <div th:replace="~{form_errors :: formErrorsFragment}"></div>-->
+<!--                        <textarea sec:authorize="isAnonymous()" disabled th:field="*{comment}" class="form-control" rows="10"></textarea>-->
+<!--                        <textarea sec:authorize="isAuthenticated()" th:field="*{comment}" class="form-control" rows="10"></textarea>-->
+<!--                        <input type="submit" value="답변등록" class="btn btn-primary my-2 title title_T">-->
+<!--                    </form>-->
+                    <!-- 댓글 작성 끝 -->
                 </div>
             </div>
             <!-- 답변 반복 끝  -->
+
+
             <div th:if="${!answer_paging.isEmpty()}">
                 <ul class="pagination justify-content-center">
                     <li class="page-item pe-4" th:classappend="${!answer_paging.hasPrevious} ? 'disabled'">
@@ -197,6 +208,7 @@
                 <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
                 <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
                 <input type="submit" value="답변등록" class="btn btn-primary my-2 title title_T">
+
             </form>
             <!-- 답변 작성 끝 -->
 

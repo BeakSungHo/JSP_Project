@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <body>
 <div layout:fragment="content">
-<nav class='title'>
+  <div class="draggable"></div>
+
+  <nav class='title'>
   <h1 class='title_T'>logo</h1>
   <hr>
   <ul class="menu">
@@ -9,7 +11,6 @@
       <a th:href="@{/question/list}">Question</a>
     </li>
     <li>
-
       <a href="#">menu2</a>
       <ul class="submenu">
         <li><a href="#">2depth</a></li>
@@ -125,4 +126,29 @@
 </nav>
 </div>
 </body>
+<script layout:fragment="script" type='text/javascript'>
+      const draggableElement = document.querySelector('.draggable');
+      let isDragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      draggableElement.addEventListener('mousedown', function(event) {
+        isDragging = true;
+        offsetX = event.clientX - draggableElement.getBoundingClientRect().left;
+        offsetY = event.clientY - draggableElement.getBoundingClientRect().top;
+      });
+
+      document.addEventListener('mousemove', function(event) {
+        if (isDragging) {
+          const x = event.clientX - offsetX;
+          const y = event.clientY - offsetY;
+          draggableElement.style.left = x + 'px';
+          draggableElement.style.top = y + 'px';
+        }
+      });
+
+      document.addEventListener('mouseup', function() {
+        isDragging = false;
+      });
+  </script>
 </html>

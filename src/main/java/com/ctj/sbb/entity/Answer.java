@@ -1,13 +1,13 @@
 package com.ctj.sbb.entity;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter

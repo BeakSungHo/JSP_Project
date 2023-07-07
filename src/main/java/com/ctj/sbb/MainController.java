@@ -21,4 +21,8 @@ public class MainController {
     public String root() {  //루트로 들어왓을때 아래경로로 redirect 해버림
         return "redirect:/logo";
     }
+    @GetMapping("/test")
+    public String test(){
+        return "redirect:/text";}
+
 }

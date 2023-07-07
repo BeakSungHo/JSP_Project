@@ -5,7 +5,17 @@
     text-decoration: none;
     font-weight:bold;
 }
+.draggable {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  z-index : 999999;
 
+  cursor: move;
+}
 .title_T {
   padding: 20px;
   color: white;

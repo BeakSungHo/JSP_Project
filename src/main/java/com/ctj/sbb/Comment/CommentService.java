@@ -7,7 +7,6 @@ import com.ctj.sbb.entity.Answer;
 import com.ctj.sbb.entity.Comment;
 import com.ctj.sbb.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +61,12 @@ public class CommentService {
         } else {
             throw new DataNotFoundException("answer not found");
         }
+    }
+    public Page<Comment> getListByIds(int page, Answer answer) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page, 3, Sort.by(sorts));
+        Page<Comment> commentList = commentRepository.findAllByAnswer(answer, pageable);
+        return commentList;
     }
     public void vote(Comment comment, SiteUser siteUser) {
         comment.getVoter().add(siteUser);
